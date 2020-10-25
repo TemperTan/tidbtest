@@ -1,5 +1,4 @@
-#include <list>
-#include <string>
+#include "sql_loader.h"
 #include <fstream>
 
 int load_sql_from_file(const std::string path, std::list<std::string *> sqls)
