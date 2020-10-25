@@ -2,7 +2,7 @@
 #include <string>
 #include <fstream>
 
-int load_sql_from_file(const std::string path, std::list<std::string> sqls)
+int load_sql_from_file(const std::string path, std::list<std::string *> sqls)
 {
     sqls.clear();
 
@@ -17,11 +17,11 @@ int load_sql_from_file(const std::string path, std::list<std::string> sqls)
         {
             if( !sqlstr.empty() )
             {
-                sqls.push_back(sqlstr);
+                sqls.push_back(new std::string(sqlstr));
             }
         }
     }
-    
+    return 0;
 }
 
-int 
+
