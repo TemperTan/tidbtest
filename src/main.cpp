@@ -1,6 +1,10 @@
 #include "sql_loader.h"
 #include "sql_executor.h"
 #include <iostream>
+#include <mysqlx/xdevapi.h>
+
+mysqlx::Session *gDbSession1;
+mysqlx::Session *gDbSession2;
 
 int main(int argc ,char *argv[])
 {
@@ -9,6 +13,8 @@ int main(int argc ,char *argv[])
         std::cout << "Usage: " << argv[0] << "  filename1  filename2" << std::endl;
         return 255;
     }
+    gDbSession1 = new mysqlx::Session("mysqlx://root@127.0.0.1");
+    gDbSession2 = new mysqlx::Session("mysqlx://root@127.0.0.1");
     std::list<std::string*> sqllist1;
     std::list<std::string*> sqllist2;
 
