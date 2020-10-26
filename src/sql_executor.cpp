@@ -1,10 +1,13 @@
 
 #include "sql_executor.h"
-#include <mysqlx/xdevapi.h>
+#include <mysql_driver.h>
+#include <mysql_connection.h>
+#include <cppconn/resultset.h>
+#include <cppconn/statement.h>
 #include <iostream>
 
-extern mysqlx::Session *gDbSession1;
-extern mysqlx::Session *gDbSession2;
+extern sql::Connection *con1;
+extern sql::Connection *con2;
 
 int exec_sql_list( const std::list<std::string *>& sqllist1,  const std::list<std::string *>& sqllist2, const std::list<int>& arrange)
 {
@@ -17,7 +20,9 @@ int exec_sql_list( const std::list<std::string *>& sqllist1,  const std::list<st
         if( *it == 1 && listIt1 != listendIt1)
         {
             try {
-                mysqlx::RowResult res = gDbSession1->sql(**listIt1).execute();
+                sql::Statement *stmt = con1->createStatement();
+                stmt->execute(**listIt1);
+                delete stmt;
                 ++listIt1;
             } catch( ...)
             {
@@ -26,7 +31,9 @@ int exec_sql_list( const std::list<std::string *>& sqllist1,  const std::list<st
         } else if( *it == 2 && listIt2 != listendIt2)
         {
             try {
-                mysqlx::RowResult res = gDbSession2->sql(**listIt2).execute();
+                sql::Statement *stmt = con2->createStatement();
+                stmt->execute((**listIt2));
+                delete stmt;
                 ++listIt2;
             } catch( ...)
             {

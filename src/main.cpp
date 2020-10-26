@@ -1,10 +1,12 @@
 #include "sql_loader.h"
 #include "sql_executor.h"
 #include <iostream>
-#include <mysqlx/xdevapi.h>
+#include <mysql_driver.h>
+#include <mysql_connection.h>
 
-mysqlx::Session *gDbSession1;
-mysqlx::Session *gDbSession2;
+sql::Connection *con1;
+sql::Connection *con2;
+
 
 int main(int argc ,char *argv[])
 {
@@ -13,8 +15,9 @@ int main(int argc ,char *argv[])
         std::cout << "Usage: " << argv[0] << "  filename1  filename2" << std::endl;
         return 255;
     }
-    gDbSession1 = new mysqlx::Session("mysqlx://root@127.0.0.1");
-    gDbSession2 = new mysqlx::Session("mysqlx://root@127.0.0.1");
+    con1 = sql::mysql::get_mysql_driver_instance()->connect("tcp://127.0.0.1:4000", "root", "");
+    con2 = sql::mysql::get_mysql_driver_instance()->connect("tcp://127.0.0.1:4000", "root", "");
+
     std::list<std::string*> sqllist1;
     std::list<std::string*> sqllist2;
 
@@ -39,5 +42,7 @@ int main(int argc ,char *argv[])
         delete *it;
     }
     sqllist1.clear();
+    delete con1;
+    delete con2;
     return 0;
 }

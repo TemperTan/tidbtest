@@ -1,22 +1,22 @@
 #include <iostream>
-#include <mysqlx/xdevapi.h>
-using ::std::cout;
-using ::std::endl;
-using namespace ::mysqlx;
+#include <mysql_driver.h>
+#include <mysql_connection.h>
+#include <cppconn/resultset.h>
+#include <cppconn/statement.h>
+
 int main(int argc, const char* argv[])
 {
-    const char   *url = (argc > 1 ? argv[1] : "mysqlx://root@127.0.0.1");
-    cout << "Creating session on " << url
-        << " ..." << endl;
-    Session sess(url);
-    try {
-        RowResult res = sess.sql("show variables like 'version'").execute();
-        std::stringstream version;
-        version << res.fetchOne().get(1).get<string>();
-        cout <<version.str() <<endl;
-    
-    } catch( ...)
-    {
+    sql::mysql::MySQL_Driver *driver;
+    sql::Connection *con;
 
+    driver = sql::mysql::get_mysql_driver_instance();
+    con = driver->connect("tcp://127.0.0.1:4000", "root", "");
+    sql::Statement *stmt = con->createStatement();
+    sql::ResultSet *res  = stmt->executeQuery("show variables like 'version';");
+    while (res->next()) 
+    {
+        std::cout << res->getString("Value") << std::endl;
     }
+    delete con;
+    
 }
