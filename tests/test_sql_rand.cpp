@@ -1,5 +1,5 @@
 #include "sql_loader.h"
-#include "sql_executor.h"
+#include "sql_arranger.h"
 #include <iostream>
 
 int print_sql_list( const std::list<std::string *>& sqllist1,  const std::list<std::string *>& sqllist2, const std::list<int>& arrange)
@@ -12,10 +12,10 @@ int print_sql_list( const std::list<std::string *>& sqllist1,  const std::list<s
     {
         if( *it == 1 && listIt1 != listendIt1)
         {
-            std::cout << "exec sql:" << *listIt1 << std::endl;
+            std::cout << "exec sql:" << **listIt1 << std::endl;
         } else if( *it == 2 && listIt2 != listendIt2)
         {
-            std::cout << "exec sql:" << *listIt2 << std::endl;
+            std::cout << "exec sql:" << **listIt2 << std::endl;
         } else
         {
             std::cerr << "unsupport type" << std::endl;
@@ -34,6 +34,7 @@ int main(int argc,char *argv[])
     load_sql_from_file( argv[2], sqllist2);
 
     std::list<std::list<int>> arranges;
+    std::cout << sqllist1.size() << "," << sqllist2.size() << std::endl;
     sql_random_exec_creator(sqllist1, sqllist2, arranges);
 
     for ( std::list<std::list<int>>::const_iterator it = arranges.cbegin(); it != arranges.cend() ; ++it)

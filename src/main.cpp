@@ -1,5 +1,6 @@
 #include "sql_loader.h"
 #include "sql_executor.h"
+#include "sql_arranger.h"
 #include <iostream>
 #include <mysql_driver.h>
 #include <mysql_connection.h>
