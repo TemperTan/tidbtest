@@ -1,5 +1,5 @@
 CXX=g++
-MYSQL_CONCPP_DIR= .
+MYSQL_CONCPP_DIR=.
 CPPFLAGS = -I$(MYSQL_CONCPP_DIR)/include  -I./include -D_GLIBCXX_USE_CXX11_ABI=0
 LDLIBS = -L$(MYSQL_CONCPP_DIR)/lib -lmysqlcppconn
 CXXFLAGS = -std=c++11
